@@ -43,26 +43,10 @@
 </template>
 
 <script>
-import { getAllData } from '@/services/apiReq.js'
 export default {
   name: 'TableData',
-  data() {
-    return {
-      data: []
-    }
-  },
-  async created() {
-    this.fetchData()
-  },
-  methods: {
-    async fetchData() {
-      try {
-        const res = await getAllData(0)
-        this.data = res.data.results
-      } catch (error) {
-        console.error('Error:', error)
-      }
-    }
+  props: {
+    data: Array
   }
 }
 </script>
