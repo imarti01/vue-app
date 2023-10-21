@@ -38,22 +38,25 @@ export default {
                 [selectedItem.filterName]:selectedItem.filterData
             }
 
+            console.log(filters.value)
+
             try {
                 let query = ''
                 const arrKeysFilters = Object.keys(filters.value)
                 arrKeysFilters.forEach(key => {
-                    console.log(!query)
-                    if (filters.value[key] !== '') {
+                    if (filters.value[key]) {
                         if (query === '') {
                             query += `${key}%20like%20"${filters.value[key]}"`
                         } else {
                             query += `%20and%20${key}%20like%20"${filters.value[key]}"%20`
                         }
-                    }}
+                        console.log(query)
+                    }
+                }
                 )
                     
                 if (!query) { 
-                    return getAllDataReq()
+                    return await getAllDataReq()
                 }
 
                 const res = await getFilteredData(query, 0)

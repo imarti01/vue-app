@@ -20,7 +20,7 @@
           <th>Posición</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="data.length > 0">
         <tr v-for="(item, idx) in data" :key="idx">
           <td>{{ item.fecha_del_parte }}</td>
           <td>{{ item.hora_del_parte }}</td>
@@ -36,7 +36,12 @@
           <td>{{ item.hora_extinguido }}</td>
           <td>{{ item.codigo_municipio_ine }}</td>
           <td>{{ item.nivel_maximo_alcanzado }}</td>
-          <td>Lon:{{ item.posicion.lon }} / Lat:{{ item.posicion.lat }}</td>
+          <td>Lon:{{ item.posicion?.lon || '-' }} / Lat:{{ item.posicion?.lat || '-' }}</td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <tr>
+          <td>No hay datos para mostrar</td>
         </tr>
       </tbody>
     </table>
