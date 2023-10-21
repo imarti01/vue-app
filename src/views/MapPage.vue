@@ -1,6 +1,6 @@
 <template>
     <div class="map-page">
-        mapPage
+        <iframe frameborder="0" width="800" height="600" src="https://analisis.datosabiertos.jcyl.es/map/embed/incendios-forestales/?&static=false&scrollWheelZoom=false"></iframe>
     </div>
 </template>
 

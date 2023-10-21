@@ -38,8 +38,6 @@ export default {
                 [selectedItem.filterName]:selectedItem.filterData
             }
 
-            console.log(filters.value)
-
             try {
                 let query = ''
                 const arrKeysFilters = Object.keys(filters.value)
@@ -50,7 +48,6 @@ export default {
                         } else {
                             query += `%20and%20${key}%20like%20"${filters.value[key]}"%20`
                         }
-                        console.log(query)
                     }
                 }
                 )
