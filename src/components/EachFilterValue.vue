@@ -6,41 +6,49 @@
   
   <script>
   import { getEachFilterData } from '@/services/apiReq.js'
+  import { onMounted, ref } from 'vue';
   export default {
     props: {
         filter: String,
         placeholder: String
     },
-    data() {
-      return {
-        filterData: '',
-        options: []
-      };
-    },
-    async created() {
-        this.fetchData()
-    },
-    methods: {
-      async fetchData() {
+    setup(props, {emit}){
+      const filterData = ref('')
+      const options = ref([])
+      
+      const fetchData = async () => {
         try {
-            if (this.filter !== 'situacion_actual'){
-                const res = await getEachFilterData(this.filter)
-                this.options = res.data.results.filter(result => result[this.filter]).map(result => result[this.filter])
+            if (props.filter !== 'situacion_actual'){
+                const res = await getEachFilterData(props.filter)
+                options.value = res.data.results.filter(result => result[props.filter]).map(result => result[props.filter])
             } else {
-                this.options = ['ACTIVO', 'CONTROLADO', 'EXTINGUIDO']
+                options.value = ['ACTIVO', 'CONTROLADO', 'EXTINGUIDO']
             }
         } catch (error) {
             console.error('Error:', error)
         }
-      },
-      onInput() {
-        this.$emit('selected', { 
-            filterName: this.filter,
-            filterData: this.filterData
+      }
+      const onInput = () => {
+        emit('selected', { 
+          filterName: props.filter,
+          filterData: filterData.value
         });
       }
+      
+      onMounted(()=> {
+        fetchData()
+        const savedFilters = JSON.parse(localStorage.getItem('filters'))
+        if (savedFilters) {
+          filterData.value = savedFilters[props.filter]
+        }
+      })
 
-    },
+      return {
+        filterData,
+        options, 
+        onInput
+      }
+    }
   };
   </script>
   

@@ -23,7 +23,8 @@ export default {
       EachFilterValue
     },
     setup() {
-        const filters = ref({
+        const savedFilters = JSON.parse(localStorage.getItem('filters'))
+        const filters = ref(savedFilters || {
             provincia: '',
             causa_probable: '',
             situacion_actual: '',
@@ -33,9 +34,11 @@ export default {
         const dataToShow = ref([])
 
         const handleSelected = async (selectedItem) => {
-            filters.value =  {
-                ...filters.value,
-                [selectedItem.filterName]:selectedItem.filterData
+            if (selectedItem) {
+                filters.value =  {
+                    ...filters.value,
+                    [selectedItem.filterName]:selectedItem.filterData
+                }
             }
 
             try {
@@ -53,9 +56,11 @@ export default {
                 )
                     
                 if (!query) { 
+                    localStorage.removeItem('filters')
                     return await getAllDataReq()
                 }
 
+                localStorage.setItem('filters', JSON.stringify(filters.value))
                 const res = await getFilteredData(query, 0)
                 dataToShow.value = res.data.results
             } catch (error) {
@@ -72,8 +77,12 @@ export default {
             }
         }
 
-        onMounted(() => {
-            getAllDataReq()
+        onMounted(()=>{
+            if(!savedFilters) {
+                getAllDataReq() 
+            } else {
+                handleSelected()
+            }
         })
 
         return {

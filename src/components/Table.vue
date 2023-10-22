@@ -31,6 +31,7 @@
           <td>{{ item.fecha_inicio }}</td>
           <td>{{ item.hora_inicio }}</td>
           <td>{{ item.medios_de_extincion }}</td>
+          <td>{{ item.situacion_actual }}</td>
           <td>{{ item.tipo_y_has_de_superficie_afectada }}</td>
           <td>{{ item.fecha_extinguido }}</td>
           <td>{{ item.hora_extinguido }}</td>
