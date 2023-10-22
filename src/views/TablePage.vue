@@ -8,6 +8,12 @@
             <EachFilterValue :placeholder="'Nivel máximo alcanzado'" :filter="'nivel_maximo_alcanzado'" @selected="handleSelected"/>
         </div>
         <TableData :data="dataToShow"/>
+        <PaginationTable 
+          :totalPages="totalPages"
+          :perPage="10"
+          :currentPage="currentPage"
+          @pagechanged="onPageChange"
+        />
     </div>
 </template>
 
@@ -16,13 +22,17 @@ import { getFilteredData, getAllData } from '@/services/apiReq.js';
 import EachFilterValue from '@/components/EachFilterValue.vue';
 import TableData from '@/components/Table.vue'
 import { onMounted, ref } from 'vue';
+import PaginationTable from '@/components/PaginationTable.vue';
 export default {
     name: 'TablePage',
     components: {
-      TableData,
-      EachFilterValue
+    TableData,
+    EachFilterValue,
+    PaginationTable
     },
     setup() {
+        const currentPage = ref(1);
+        const totalPages = ref(1)
         const savedFilters = JSON.parse(localStorage.getItem('filters'))
         const filters = ref(savedFilters || {
             provincia: '',
@@ -30,7 +40,6 @@ export default {
             situacion_actual: '',
             nivel_maximo_alcanzado: ''
         })
-
         const dataToShow = ref([])
 
         const handleSelected = async (selectedItem) => {
@@ -61,17 +70,19 @@ export default {
                 }
 
                 localStorage.setItem('filters', JSON.stringify(filters.value))
-                const res = await getFilteredData(query, 0)
+                const res = await getFilteredData(query, currentPage.value - 1)
                 dataToShow.value = res.data.results
+                totalPages.value = res.data.total_count
             } catch (error) {
                 console.error('Error:', error)
             }
         }
 
-        const getAllDataReq = async(offset = 0) => {
+        const getAllDataReq = async() => {
             try {
-                const res = await getAllData(offset)
+                const res = await getAllData(currentPage.value - 1)
                 dataToShow.value = res.data.results
+                totalPages.value = res.data.total_count - 1
             } catch (error) {
                 console.error('Error:', error)
             }
@@ -85,10 +96,18 @@ export default {
             }
         })
 
+        const onPageChange = (page) => {
+            currentPage.value = page;
+            handleSelected()
+        };
+
         return {
             filters,
             handleSelected,
-            dataToShow
+            dataToShow,
+            onPageChange,
+            totalPages,
+            currentPage
         }
     }
 }
