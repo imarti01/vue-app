@@ -1,19 +1,22 @@
 <template>
     <div class="table-page">
-        <div>
-            <h4>Filtros:</h4>
+        <div class="filters-container">
             <EachFilterValue :placeholder="'Provincia'" :filter="'provincia'" @selected="handleSelected"/>
             <EachFilterValue :placeholder="'Causa probable'" :filter="'causa_probable'" @selected="handleSelected"/>
             <EachFilterValue :placeholder="'Situación actual'" :filter="'situacion_actual'" @selected="handleSelected"/>
             <EachFilterValue :placeholder="'Nivel máximo alcanzado'" :filter="'nivel_maximo_alcanzado'" @selected="handleSelected"/>
         </div>
-        <TableData :data="dataToShow"/>
-        <PaginationTable 
-          :totalPages="totalPages"
-          :perPage="10"
-          :currentPage="currentPage"
-          @pagechanged="onPageChange"
-        />
+        <div class="table-container">
+            <TableData :data="dataToShow"/>
+        </div>
+        <div class="pagination-container">
+            <PaginationTable 
+            :totalPages="totalPages"
+            :perPage="10"
+            :currentPage="currentPage"
+            @pagechanged="onPageChange"
+            />
+        </div>
     </div>
 </template>
 
@@ -72,7 +75,7 @@ export default {
                 localStorage.setItem('filters', JSON.stringify(filters.value))
                 const res = await getFilteredData(query, currentPage.value - 1)
                 dataToShow.value = res.data.results
-                totalPages.value = res.data.total_count
+                totalPages.value = res.data.total_count - 1
             } catch (error) {
                 console.error('Error:', error)
             }
@@ -112,3 +115,41 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .table-page {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 16px;
+    }
+
+    .filters-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 16px 0;
+
+        @media (min-width: 481px) {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+    }
+
+    .table-container {
+        overflow: scroll;
+        width: 100%;
+        height: 60vh;
+        margin-left: 0.4rem;
+    }
+
+    .pagination-container {
+        width: 100%;
+    }
+</style>

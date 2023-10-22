@@ -24,7 +24,7 @@
         <tr v-for="(item, idx) in data" :key="idx">
           <td>{{ item.fecha_del_parte }}</td>
           <td>{{ item.hora_del_parte }}</td>
-          <td>{{ item.provincia }}</td>
+          <td>{{ item.length > 1 ? `${item.provincia[0]}, ${item.provincia[1]}` : item.provincia[0] }}</td>
           <td>{{ item.causa_probable }}</td>
           <td>{{ item.termino_municipal }}</td>
           <td>{{ item.nivel }}</td>
@@ -42,7 +42,7 @@
       </tbody>
       <tbody v-else>
         <tr>
-          <td>No hay datos para mostrar</td>
+          <td colspan="16" class="no-options">No hay datos para mostrar</td>
         </tr>
       </tbody>
     </table>
@@ -58,5 +58,36 @@ export default {
 </script>
 
 <style scoped>
+.table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
 
+.table th, .table td {
+    padding: 12px 15px;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.no-options {
+  width: 100%;
+}
 </style>

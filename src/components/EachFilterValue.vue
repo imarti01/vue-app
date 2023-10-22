@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="each-filter">
       <v-select v-model="filterData" :options="options" :label="filter" :placeholder="placeholder" @update:modelValue="onInput"></v-select>
     </div>
   </template>
@@ -51,4 +51,16 @@
     }
   };
   </script>
+
+  <style>
+
+  .each-filter {
+    width: 100%;
+
+    @media (min-width: 481px) {
+      width: 49%;
+    }
+
+  }
+  </style>
   

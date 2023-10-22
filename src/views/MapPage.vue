@@ -1,23 +1,27 @@
 <template>
-    <div style="width: 100%; height: 400px;">
-        <div>
+    <div class="map-page">
+        <div class="container-filters-map">
             <h2>Filtrar por coordenadas:</h2>
             <form @submit.prevent="submitFilters">
-                <label>
-                    Distancia máxima (Km):
-                    <input v-model="maxDistance" type="text" required pattern="[0-9]+"/>
-                </label>
-                <label>
-                    Longitud:
-                    <input v-model="longitude" type="text" required pattern="^-?\d+(?:.\d+)?$"/>
-                </label>
-                <label>
-                    Latitud:
-                    <input v-model="latitude" type="text" required pattern="^-?\d+(?:.\d+)?$"/>
-                </label>
-                <button type="submit">Aplicar filtros</button>
+                <div class="inputs-container">
+                    <label>
+                        Distancia máxima (Km):
+                        <input v-model="maxDistance" type="text" required pattern="[0-9]+"/>
+                    </label>
+                    <label>
+                        Longitud:
+                        <input v-model="longitude" type="text" required pattern="^-?\d+(?:.\d+)?$"/>
+                    </label>
+                    <label>
+                        Latitud:
+                        <input v-model="latitude" type="text" required pattern="^-?\d+(?:.\d+)?$"/>
+                    </label>
+                </div>
+                <div class="buttons-container">
+                    <button class="submit-filters" type="submit">Aplicar filtros</button>
+                    <button class="reset-filters" @click="resetFilters">Limpiar filtros</button>
+                </div>
             </form>
-            <button @click="resetFilters">Limpiar filtros</button>
         </div>
         <MapComponent :dataToShow="dataToShow" />
     </div>
@@ -101,3 +105,103 @@ export default {
         }
 }}
 </script>
+
+<style scoped>
+.map-page {
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+
+}
+
+.container-filters-map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px;
+    width: 80%;
+}
+
+h2 {
+    color: #009879;
+    margin: 0;
+    @media (min-width: 769px) {
+        padding: 13px;
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+
+    
+}
+
+form div {
+    width: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    @media (min-width: 769px) {
+        padding-top: 13px;
+    }
+}
+
+.inputs-container {
+    
+    @media (min-width: 769px) {
+        display: flex;
+        gap: 16px;
+    }
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2px;
+    width: 100%;
+    color: rgba(60, 60, 60);;
+}
+
+input {
+    width: 100%;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(60, 60, 60, .26);
+    height: 24px;
+}
+
+button {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: none;
+    padding: 7px 16px;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+
+button:active {
+    transform: scale(0.99)
+}
+.submit-filters {
+    background-color: #009879;
+    color: white;
+}
+
+</style>

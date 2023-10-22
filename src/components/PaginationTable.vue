@@ -6,7 +6,7 @@
           @click="onClickFirstPage"
           :disabled="isInFirstPage"
         >
-          First
+        ‹‹
         </button>
       </li>
   
@@ -16,7 +16,7 @@
           @click="onClickPreviousPage"
           :disabled="isInFirstPage"
         >
-          Previous
+        ‹
         </button>
       </li>
   
@@ -40,7 +40,7 @@
           @click="onClickNextPage"
           :disabled="isInLastPage"
         >
-          Next
+        ›
         </button>
       </li>
   
@@ -50,7 +50,7 @@
           @click="onClickLastPage"
           :disabled="isInLastPage"
         >
-          Last
+        ››
         </button>
       </li>
     </ul>
@@ -84,7 +84,13 @@
             }
 
             if (this.currentPage === this.totalPages) {
-                return this.totalPages - this.maxVisibleButtons;
+              const start = this.totalPages - (this.maxVisibleButtons - 1);
+
+              if (start === 0) {
+                return 1;
+              } else {
+                return start;
+              }
             }
 
             return this.currentPage - 1;
@@ -135,9 +141,12 @@
   };
   </script>
 
-<style>
+<style scoped>
 .pagination {
   list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pagination-item {
@@ -145,7 +154,13 @@
 }
 
 .active {
-  background-color: #4AAE9B;
+  background-color: #009879;
   color: #ffffff;
 }
+
+button {
+  font-size: 18px;
+  color: #2c3e50;
+}
+
 </style>

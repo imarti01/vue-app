@@ -1,9 +1,8 @@
 <template>
-    <ol-map
+    <ol-map class="map-component"
       ref="map"
       :loadTilesWhileAnimating="true"
       :loadTilesWhileInteracting="true"
-      style="height: 700px"
     >
       <ol-view
         ref="view"
@@ -61,10 +60,12 @@
       </ol-animated-clusterlayer>
     </ol-map>
     <div id="popup" style="display: none;">
-      <div v-for="(item, idx) in dataDetail" :key="idx">
-        <p>Fecha Inicio: <span>{{ item.fecha_inicio }}</span></p>
-        <p>Situación Actual: <span>{{ item.situacion_actual }}</span></p>
-        <p>Coordenadas: <span>Lon:{{ item.posicion?.lon || '-' }} / Lat:{{ item.posicion?.lat || '-' }}</span></p>
+      <div class="popup-container" v-for="(item, idx) in dataDetail" :key="idx">
+        <div class="popup-card">
+          <p>Fecha Inicio: <span>{{ item.fecha_inicio }}</span></p>
+          <p>Situación Actual: <span>{{ item.situacion_actual }}</span></p>
+          <p>Coordenadas: <span>Lon:{{ item.posicion?.lon || '-' }} / Lat:{{ item.posicion?.lat || '-' }}</span></p>
+        </div>
       </div>
     </div>
   </template>
@@ -142,7 +143,45 @@
     const popup = document.getElementById('popup');
     const resultsDataDetail = props.dataToShow.filter(el => el.posicion.lon === coordinates[0] && el.posicion.lat === coordinates[1])
     dataDetail.value = resultsDataDetail
-    if(resultsDataDetail.length > 0) popup.style.display = 'block'; 
+    if(resultsDataDetail.length > 0) popup.style.display = 'flex'; 
   }
   };
   </script>
+
+  <style>
+  .map-component {
+    width: 90%;
+    height: 400px;
+  }
+
+  #popup {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup-card {
+    padding: 16px 20px;
+    border: 1px solid #009879;
+    border-radius: 4px;
+    text-align: start;
+    margin: 5px;
+  }
+
+  p {
+    color: #009879;
+    font-weight: 600;
+  }
+
+  span {
+    color: #2c3e50;
+    font-weight: 400;
+  }
+  </style>
