@@ -1,6 +1,6 @@
 # VUE-APP
 
-This web application is designed to display information about wildfires that have occurred in Castilla-La Mancha in the last two years. The app features a map that shows the geolocations of these wildfires, allowing users to visualize and explore wildfire data in the region.
+This web application is designed to display information about wildfires that have occurred in Castilla y León in the last two years. The app features a map that shows the geolocations of these wildfires, allowing users to visualize and explore wildfire data in the region.
 
 ## Features
 
